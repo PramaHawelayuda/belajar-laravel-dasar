@@ -1,12 +1,12 @@
 <?php
 
-namespace app\Services;
-
+namespace App\Services;
 
 class HelloServiceIndonesia implements HelloService
 {
+
     public function hello(string $name): string
     {
-        return "Hello $name";
+        return "Halo $name";
     }
 }
