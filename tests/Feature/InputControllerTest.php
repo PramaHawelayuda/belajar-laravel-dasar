@@ -10,50 +10,89 @@ class InputControllerTest extends TestCase
 {
     public function testInput()
     {
-        $this->get('/input/hello?name=Prama')
-            ->assertSeeText('Hello Prama');
-        
+        $this->get('/input/hello?name=Eko')
+            ->assertSeeText('Hello Eko');
+
         $this->post('/input/hello', [
-            'name' => 'Prama'
-        ])->assertSeeText('Hello Prama');
+            'name' => 'Eko'
+        ])->assertSeeText('Hello Eko');
     }
 
-    public function testInputNasted()
+    public function testInputNested()
     {
         $this->post('/input/hello/first', [
             "name" => [
-                "first" => "Prama",
-                "last" => "Hawelayuda"
+                "first" => "Eko",
+                "last" => "Khannedy"
             ]
-        ])->assertSeeText('Hello Prama');
+        ])->assertSeeText("Hello Eko");
     }
-    
+
     public function testInputAll()
     {
         $this->post('/input/hello/input', [
             "name" => [
-                "first" => "Prama",
-                "last" => "Hawelayuda"
+                "first" => "Eko",
+                "last" => "Khannedy"
             ]
-        ])->assertSeeText('name')->assertSeeText('first')
-            ->assertSeeText('last')->assertSeeText('Prama')
-            ->assertSeeText('Hawelayuda');
+        ])->assertSeeText("name")->assertSeeText("first")
+            ->assertSeeText("last")->assertSeeText("Eko")
+            ->assertSeeText("Khannedy");
     }
 
-    public function testArrayInput()
+    public function testInputArray()
     {
         $this->post('/input/hello/array', [
-            'products' => [
+            "products" => [
                 [
-                    'name' => 'Apple Mac Book Pro',
-                    'price' => 3000000
+                    "name" => "Apple Mac Book Pro",
+                    "price" => 30000000
                 ],
                 [
-                    'name' => 'Samsung Galaxy',
-                    'price' => 2000000
+                    "name" => "Samsung Galaxy S10",
+                    "price" => 15000000
                 ]
             ]
-        ])->assertSeeText('Apple Mac Book Pro')
-            ->assertSeeText('Samsung Galaxy');
+        ])->assertSeeText("Apple Mac Book Pro")
+            ->assertSeeText("Samsung Galaxy S10");
+    }
+
+    public function testInputType()
+    {
+        $this->post('/input/type', [
+            'name' => 'Budi',
+            'married' => 'true',
+            'birth_date' => '1990-10-10'
+        ])->assertSeeText('Budi')->assertSeeText("true")->assertSeeText("1990-10-10");
+    }
+
+    public function testFillterOnly()
+    {
+        $this->post('/input/fillter/only', [
+            'name' => [
+                'first' => 'Prama',
+                'middle' => 'Yuda',
+                'last' => 'Hawelayuda',
+            ]
+        ])->assertSeeText('Prama')->assertSeeText('Hawelayuda')->assertDontSeeText('Yuda');
+    }
+
+    public function testFillterExcept()
+    {
+        $this->post('/input/fillter/except', [
+            'username' => 'prama',
+            'admin' => 'true',
+            'password' => 'rahasia'
+        ])->assertSeeText('prama')->assertSeeText('rahasia')->assertDontSeeText('admin');
+    }
+
+    public function testFillterMerge()
+    {
+        $this->post('/input/fillter/merge', [
+            'username' => 'prama',
+            'admin' => 'true',
+            'password' => 'rahasia'
+        ])->assertSeeText('prama')->assertSeeText('rahasia')
+            ->assertSeeText('admin')->assertSeeText('false');
     }
 }

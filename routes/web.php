@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HelloController;
 use App\Http\Controllers\InputController;
 use Illuminate\Support\Facades\Route;
@@ -82,3 +83,11 @@ Route::post('/input/hello', [InputController::class, 'hello']);
 Route::post('/input/hello/first', [InputController::class, 'helloFirstName']);
 Route::post('/input/hello/helloInput', [InputController::class, 'helloInput']);
 Route::post('/input/hello/array', [InputController::class, 'helloArray']);
+
+Route::post('/input/type', [InputController::class, 'inputType']);
+
+Route::post('/input/fillter/only', [InputController::class, 'fillterOnly']);
+Route::post('/input/fillter/except', [InputController::class,'fillterExcept']);
+Route::post('/input/fillter/merge', [InputController::class,'fillterMerge']);
+
+Route::post('/file/upload', [FileController::class, 'upload']);
