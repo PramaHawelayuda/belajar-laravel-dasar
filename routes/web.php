@@ -171,3 +171,15 @@ Route::get('/error/manual', function(){
 Route::get('/error/validation', function(){
     throw new ValidationException("Validation Error");
 });
+
+Route::get('/abort/400', function() {
+    abort(400, 'Ups Validation Error');
+});
+
+Route::get('/abort/401', function() {
+    abort(401);
+});
+
+Route::get('/abort/500', function() {
+    abort(500);
+});
